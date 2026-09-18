@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.adityajhalani.com/machine-literate-coming-soon/sitemap.xml
+Sitemap: https://machineliterate.org/sitemap.xml

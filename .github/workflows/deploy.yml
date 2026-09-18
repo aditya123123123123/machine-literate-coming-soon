@@ -1,0 +1,64 @@
+name: Deploy approved teaser to machineliterate.org
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: https://machineliterate.org/
+    steps:
+      - name: Check out exact requested revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Verify domain ownership and binding before packaging
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(cat CNAME)" = 'machineliterate.org'
+          gh api "repos/$GITHUB_REPOSITORY/pages" > "$RUNNER_TEMP/pages.json"
+          python3 -c 'import json,os; from urllib.parse import urlparse; p=json.load(open(os.environ["RUNNER_TEMP"]+"/pages.json")); assert p["cname"] == "machineliterate.org"; assert p["build_type"] == "workflow"; assert urlparse(p["html_url"]).hostname == "machineliterate.org"; assert p.get("protected_domain_state") == "verified", "Account-level domain ownership verification is required before deployment"'
+      - name: Package only approved public files
+        run: |
+          set -euo pipefail
+          mkdir _site
+          cp index.html styles.css favicon.ico robots.txt sitemap.xml CNAME .nojekyll _site/
+          cp -R assets licenses _site/
+          test -z "$(find _site -type l -print)"
+      - name: Upload approved artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: _site
+          retention-days: 1
+      - name: Recheck binding immediately before deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/pages" > "$RUNNER_TEMP/pages.json"
+          python3 -c 'import json,os; from urllib.parse import urlparse; p=json.load(open(os.environ["RUNNER_TEMP"]+"/pages.json")); assert p["cname"] == "machineliterate.org"; assert p["build_type"] == "workflow"; assert urlparse(p["html_url"]).hostname == "machineliterate.org"; assert p.get("protected_domain_state") == "verified"'
+      - name: Deploy to the bound custom domain
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+      - name: Verify deployed URL
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python3 -c 'import os; from urllib.parse import urlparse; assert urlparse(os.environ["PAGE_URL"]).hostname == "machineliterate.org"'
