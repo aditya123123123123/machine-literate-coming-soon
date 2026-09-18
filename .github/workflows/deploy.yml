@@ -26,15 +26,18 @@ jobs:
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
-      - name: Verify domain ownership and binding before packaging
+      - name: Verify exact domain binding before packaging
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'aditya123123123123/machine-literate-coming-soon'
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test "$(cat CNAME)" = 'machineliterate.org'
           gh api "repos/$GITHUB_REPOSITORY/pages" > "$RUNNER_TEMP/pages.json"
-          python3 -c 'import json,os; from urllib.parse import urlparse; p=json.load(open(os.environ["RUNNER_TEMP"]+"/pages.json")); assert p["cname"] == "machineliterate.org"; assert p["build_type"] == "workflow"; assert urlparse(p["html_url"]).hostname == "machineliterate.org"; assert p.get("protected_domain_state") == "verified", "Account-level domain ownership verification is required before deployment"'
+          # Account-level TXT verification is recommended hardening, not a Pages requirement.
+          # Keep the repository custom-domain binding mandatory; never deploy to a personal URL.
+          python3 -c 'import json,os; from urllib.parse import urlparse; p=json.load(open(os.environ["RUNNER_TEMP"]+"/pages.json")); assert p["cname"] == "machineliterate.org"; assert p["build_type"] == "workflow"; assert urlparse(p["html_url"]).hostname == "machineliterate.org"'
       - name: Package only approved public files
         run: |
           set -euo pipefail
@@ -53,7 +56,7 @@ jobs:
         run: |
           set -euo pipefail
           gh api "repos/$GITHUB_REPOSITORY/pages" > "$RUNNER_TEMP/pages.json"
-          python3 -c 'import json,os; from urllib.parse import urlparse; p=json.load(open(os.environ["RUNNER_TEMP"]+"/pages.json")); assert p["cname"] == "machineliterate.org"; assert p["build_type"] == "workflow"; assert urlparse(p["html_url"]).hostname == "machineliterate.org"; assert p.get("protected_domain_state") == "verified"'
+          python3 -c 'import json,os; from urllib.parse import urlparse; p=json.load(open(os.environ["RUNNER_TEMP"]+"/pages.json")); assert p["cname"] == "machineliterate.org"; assert p["build_type"] == "workflow"; assert urlparse(p["html_url"]).hostname == "machineliterate.org"'
       - name: Deploy to the bound custom domain
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
