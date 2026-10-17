@@ -47,7 +47,7 @@ your branch ──PR──▶ preprod ──release PR──▶ main ──▶ m
 3. A maintainer reviews and merges into `preprod`.
 4. When `preprod` is ready, a maintainer opens a release PR from `preprod` to `main`. Merging into `main` deploys to machineliterate.org.
 
-Nobody pushes straight to `main` or `preprod`.
+Nobody pushes straight to `main` or `preprod`. Vercel builds every branch automatically, so you never deploy by hand.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
