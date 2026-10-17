@@ -1,0 +1,10 @@
+node_modules
+.vercel
+.env*
+.agents
+.claude
+skills-lock.json
+test-results/
+playwright-report/
+waitlist*.csv
+.DS_Store

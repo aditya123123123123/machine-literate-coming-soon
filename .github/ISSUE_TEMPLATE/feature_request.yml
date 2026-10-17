@@ -1,0 +1,31 @@
+name: Feature or improvement
+description: Suggest something new, or a better version of something that exists
+title: '[FEATURE]: '
+labels: [feature]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like?
+      placeholder: 'A short "For teachers" section explaining how lessons fit into a 45-minute class.'
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Who does it help, and how?
+      placeholder: 'Teachers visiting the site want to know if it fits their schedule.'
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Ideas for how to build it
+      description: Optional.
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this hasn't been suggested.
+          required: true

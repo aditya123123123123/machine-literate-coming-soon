@@ -1,0 +1,20 @@
+{
+  "name": "machine-literate-site",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "test": "npm run test:api && npm run test:site",
+    "test:api": "node --test tests/api.test.mjs",
+    "test:site": "playwright test"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}

@@ -1,0 +1,47 @@
+name: Bug report
+description: Something on the site is broken or looks wrong
+title: '[BUG]: '
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What's wrong?
+      description: What happened, and what should have happened?
+      placeholder: 'On my phone, the "Join the waitlist" button is cut off on the right.'
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open machineliterate.org on an iPhone
+        2. Scroll to the waitlist
+        3. See the button cut off
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      placeholder: 'https://machineliterate.org/get-involved'
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: 'iPhone 15, Safari'
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag images here if you have them.
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this hasn't been reported.
+          required: true

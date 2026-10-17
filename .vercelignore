@@ -1,0 +1,10 @@
+.agents
+.claude
+skills-lock.json
+scripts
+tests
+.github
+.env*
+playwright.config.mjs
+test-results
+playwright-report
