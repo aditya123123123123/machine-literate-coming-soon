@@ -10,6 +10,7 @@ api/waitlist.js  Waitlist signup endpoint (Vercel serverless function)
 tests/           Automated checks that run on every pull request
 scripts/         Local dev server and admin helpers
 vercel.json      Hosting config (clean URLs, security headers)
+deploy/          Build check: production only builds from main
 ```
 
 ## Run it locally
