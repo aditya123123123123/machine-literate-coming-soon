@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "node scripts/dev-server.mjs",
     "test": "npm run test:api && npm run test:site",
-    "test:api": "node --test tests/api.test.mjs",
+    "test:api": "node --test tests/api.test.mjs tests/production-guard.test.mjs",
     "test:site": "playwright test"
   },
   "dependencies": {

@@ -61,6 +61,8 @@ When `preprod` has a set of changes ready, a maintainer opens a PR titled `Relea
 
 If something breaks in production, a maintainer can roll back instantly from the Vercel dashboard while a fix goes through the normal flow.
 
+Don't use **Promote to Production** or **Redeploy to Production** on a preview build in Vercel. That skips review, and the build will fail on purpose: `deploy/production-guard.mjs` only lets production build from `main`.
+
 ## Ground rules for the site
 
 - **Kids use this site.** Copy should be plain, friendly and readable at a 5th-grade level. No tracking scripts, analytics or third-party embeds without a maintainer's sign-off.

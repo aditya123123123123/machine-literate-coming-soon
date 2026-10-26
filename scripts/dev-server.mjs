@@ -24,6 +24,11 @@ async function file(path) {
 
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
+  // Vercel serves the real tracker; local previews must not collect analytics.
+  if (url.pathname === '/_vercel/insights/script.js') {
+    res.setHeader('Content-Type', 'text/javascript; charset=utf-8');
+    return res.end('// Web Analytics is disabled in local previews.\n');
+  }
   if (url.pathname.startsWith('/api/')) {
     const name = url.pathname.slice(5).replace(/[^a-z0-9-]/gi, '');
     try {
