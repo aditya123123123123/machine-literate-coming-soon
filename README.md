@@ -1,11 +1,11 @@
 # Machine Literate website
 
-Source for [machineliterate.org](https://machineliterate.org): free AI lessons for kids in grades 5–8.
+Source for [machineliterate.org](https://machineliterate.org): free AI lessons for kids in grades 5–12.
 
 It's a plain static site (HTML, CSS, a little JavaScript) plus one serverless function for the waitlist. No framework, no build step.
 
 ```
-public/          Everything the browser sees (index.html, get-involved.html, styles.css, assets/)
+public/          Everything the browser sees (index.html, team.html, impact.html, get-involved.html, styles.css, assets/)
 api/waitlist.js  Waitlist signup endpoint (Vercel serverless function)
 tests/           Automated checks that run on every pull request
 scripts/         Local dev server and admin helpers
@@ -34,6 +34,12 @@ npm test
 ```
 
 This runs the API tests and the page checks (layout at four screen widths, the demo lesson and the waitlist form) in Chromium and WebKit. The same tests run automatically on every pull request.
+
+## Team and Impact pages
+
+The site serves grades 5–12: Foundations (5–8) and Investigations (9–12) are independent entry points, not a sequence. `/team` introduces the founder and volunteer work areas. `/impact` describes planned learning outcomes and the founder’s summer 2026 Breakthrough New York pilot (40 students, 8 lessons), separate from the planned courses. The courses remain in development and are not yet open to students.
+
+All four pages share responsive, keyboard-accessible navigation that also works without JavaScript. The local preview server binds only to loopback, forces waitlist dry-run mode, and discourages indexing; production robots and hosting configuration are unchanged.
 
 ## How changes get to the live site
 

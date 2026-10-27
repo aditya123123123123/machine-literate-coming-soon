@@ -2,8 +2,8 @@
 // Ported from the launch QA scripts: layout, the demo lesson and the waitlist form.
 import { test, expect } from '@playwright/test';
 
-const WIDTHS = [1440, 1024, 390, 320];
-const PAGES = ['/', '/get-involved'];
+const WIDTHS = [1440, 1024, 768, 390, 320];
+const PAGES = ['/', '/team', '/impact', '/get-involved'];
 
 function watch(page, origin) {
   const problems = [];
@@ -22,6 +22,12 @@ for (const path of PAGES) {
       await page.goto(path, { waitUntil: 'networkidle' });
       const r = await page.evaluate(async () => {
         await document.fonts.ready;
+        // Exercise below-fold lazy assets before checking load failures.
+        // networkidle alone does not request images outside the viewport.
+        await Promise.all([...document.images].map(async image => {
+          image.loading = 'eager';
+          await image.decode().catch(() => {});
+        }));
         const text = document.body.innerText;
         const ids = [...document.querySelectorAll('[id]')].map(e => e.id);
         return {
@@ -49,6 +55,23 @@ test('homepage headline and metadata', async ({ page }) => {
   await expect(page.locator('h1')).toHaveText('Free AI lessons for kids.');
   await expect(page).toHaveTitle(/Free AI lessons/);
   await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href', 'https://machineliterate.org/');
+});
+
+test('site-wide audience covers grades 5–12 while preserving lesson bands', async ({ page }) => {
+  for (const path of PAGES) {
+    await page.goto(path);
+    for (const selector of ['meta[name="description"]', 'meta[property="og:description"]']) {
+      await expect(page.locator(selector)).toHaveAttribute('content', /grades 5–12/);
+    }
+    // Grades 5–8 is valid only within the named Foundations course band.
+    await expect(page.locator('body')).toContainText(/grades 5–12/i);
+  }
+  await expect(page.locator('.role').filter({ has: page.getByRole('heading', { name: 'Teachers', exact: true }) })).toContainText('grades 5–12');
+  await expect(page.locator('.role').filter({ has: page.getByRole('heading', { name: 'Testers', exact: true }) })).toContainText('grades 5–12');
+  await page.goto('/');
+  await expect(page.locator('.hero-copy > .status-pill')).toHaveText('In development · Free · Grades 5–12');
+  await expect(page.locator('.note-4')).toContainText('Built for grades 5–12.');
+  await expect(page.locator('.audience .grade')).toHaveText(['5–8', '9–12']);
 });
 
 test('demo lesson: right answer, feedback, try again', async ({ page }) => {
