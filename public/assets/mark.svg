@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="#FFD84D" d="M6 7 36 5 34 32 4 35Z"/><rect fill="#1F2328" x="12" y="16" width="5" height="9" rx="2.5"/><rect fill="#1F2328" x="23" y="16" width="5" height="9" rx="2.5"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180"><rect width="180" height="180" rx="36" fill="#FFD84D"/><svg x="12" y="12" width="156" height="156" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+
+<g transform="translate(-22.91 9.09) scale(0.7273)"><g id="head">
+<path fill="#F2BF1F" d="M68 14H155Q181 14 185 37L191 99Q193 121 171 125L68 126Q46 126 44 106L39 42Q37 16 68 14Z" />
+<path fill="#FFD84D" d="M68 14H143Q161 14 163 35L169 101Q171 124 150 126H68Q46 126 44 106L39 42Q37 16 68 14Z" />
+<rect x="65" y="28" width="72" height="22" rx="7" fill="#F2BF1F"/><rect x="71" y="35" width="59" height="8" rx="4" fill="#1F2328"/>
+<path fill="#1F2328" d="M63 60H143Q155 60 157 73L160 100Q161 114 147 115H66Q53 115 52 102L49 74Q48 60 63 60Z" />
+<ellipse cx="178" cy="74" rx="11" ry="19" fill="#1F2328"/><path fill="#FFD84D" d="M175 67 183 74 175 80Z" />
+<g id="eyes"><rect x="76" y="80" width="13" height="24" rx="6.5" fill="#FFF8E1"/><rect x="116" y="80" width="13" height="24" rx="6.5" fill="#FFF8E1"/></g>
+</g></g>
+</svg>
+</svg>
