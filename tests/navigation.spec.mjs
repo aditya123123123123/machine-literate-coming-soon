@@ -257,3 +257,15 @@ test('new pages are honest draft content and sitemap routes resolve', async ({ p
   });
   expect(await signup.json()).toEqual({ ok: true, dryRun: true });
 });
+
+test('public contact links use the volunteer@ org address, never Gmail', async ({ page }) => {
+  for (const path of ['/', '/get-involved']) {
+    await page.goto(path);
+    const mailtos = page.locator('a[href^="mailto:"]');
+    expect(await mailtos.count()).toBeGreaterThan(0);
+    for (const href of await mailtos.evaluateAll(as => as.map(a => a.getAttribute('href')))) {
+      expect(href).toMatch(/^mailto:volunteer@machineliterate\.org(\?|$)/);
+    }
+    await expect(page.locator('body')).not.toContainText('gmail.com');
+  }
+});
