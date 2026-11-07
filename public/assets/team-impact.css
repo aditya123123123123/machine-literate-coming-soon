@@ -23,6 +23,10 @@
 .team-page .initials-avatar.photo-avatar img{position:static;width:100%;height:100%;object-fit:cover;object-position:center 30%}
 .team-page .person-card h3{font-size:24px;margin-bottom:7px}
 .team-page .person-card>p{font-size:14px}
+.team-page .person-links{list-style:none;margin:16px 0 0;padding:0;display:flex;justify-content:center;gap:10px}
+.team-page .person-links a{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #8a9096;border-radius:50%;color:var(--ink);background:var(--paper);text-decoration:none;transition:background-color .15s,border-color .15s}
+@media(hover:hover){.team-page .person-links a:hover{background:var(--highlight);border-color:var(--ink)}}
+.team-page .person-links a:active{background:var(--highlight);border-color:var(--ink)}
 .team-page .open-teams{padding:64px 0 14px;border-block:1px solid var(--rule);background:var(--margin)}
 .team-page .open-intro{text-align:center;max-width:650px;margin-bottom:52px}
 .team-page .open-intro>p:last-child{margin-top:20px}
