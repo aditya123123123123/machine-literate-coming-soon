@@ -77,4 +77,4 @@ Don't use **Promote to Production** or **Redeploy to Production** on a preview b
 
 Use the [issue templates](https://github.com/aditya123123123123/machine-literate-coming-soon/issues/new/choose). Look for issues labelled `good first issue` if you're new.
 
-For security problems, don't open a public issue. Email machineliterate@gmail.com instead.
+For security problems, don't open a public issue. Email volunteer@machineliterate.org instead.
