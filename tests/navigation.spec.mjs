@@ -110,7 +110,19 @@ test('team shows founder, leads and volunteers only', async ({ page }) => {
   expect(await founderPhoto.evaluate((img) => img.complete && img.naturalWidth)).toBe(600);
   const text = await page.locator('main').innerText();
   for (const name of ['Juhee', 'Amit', 'Keith', 'Crystal', 'Director']) expect(text).not.toContain(name);
-  await expect(page.locator('.person-card a')).toHaveCount(0);
+  const founderLinks = page.locator('.founder-group .person-links a');
+  await expect(founderLinks).toHaveCount(3);
+  await expect(founderLinks.nth(0)).toHaveAttribute('href', 'https://www.linkedin.com/in/aditya-jhalani-70b207367/');
+  await expect(founderLinks.nth(1)).toHaveAttribute('href', 'mailto:aditya@machineliterate.org');
+  await expect(founderLinks.nth(2)).toHaveAttribute('href', 'https://www.adityajhalani.com/');
+  for (const name of ['LinkedIn', 'Email aditya@machineliterate.org', 'Personal website']) {
+    await expect(page.getByRole('link', { name: new RegExp(name) })).toBeVisible();
+  }
+  for (const link of await founderLinks.all()) {
+    const box = await link.boundingBox();
+    expect(box.width).toBeGreaterThanOrEqual(44);
+    expect(box.height).toBeGreaterThanOrEqual(44);
+  }
   await expect(page.locator('.leads-group .open-seat')).toHaveCount(3);
   await expect(page.locator('.volunteers-group .open-seat')).toHaveCount(3);
   for (const link of await page.locator('.open-seat a').all()) await expect(link).toHaveAttribute('href', '/get-involved');
